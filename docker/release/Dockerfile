@@ -13,7 +13,7 @@ RUN apt update && \
 
 # Install python packages
 RUN apt-get install -y python3-dev python3-pip python3-sphinx
-RUN pip3 install pytest numpy sphinx_rtd_theme
+RUN pip3 install pytest numpy sphinx_rtd_theme recommonmark
 
 # Configure spot repositories for download.
 RUN wget -q -O - https://www.lrde.epita.fr/repo/debian.gpg | apt-key add - && \
