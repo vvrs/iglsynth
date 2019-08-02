@@ -1,6 +1,7 @@
 import graph_tool as gt
 from typing import Iterable, Iterator, List, Tuple
 
+
 class Graph(object):
     """
     Represents a discrete graph :math:`G = (V, E, vprops, eprops, gprops)`.
@@ -28,14 +29,13 @@ class Graph(object):
     # ------------------------------------------------------------------------------------------------------------------
     class Edge(object):
         """
-        [INTERNAL CLASS] Users should not instantiate this class.
+        [INTERNAL CLASS] Represents an edge in :class:`Graph`. It is a wrapper around the edge data structure of
+        internal graph library.
 
         :param graph: A :class:`Graph` object.
-        :param gt_edge: A :class:`gt.Edge`object.
+        :param gt_edge: A ``graph_tool.Edge`` object.
 
-        .. note: This class is expected to maintain the API for properties and definition of equivalence. The
-        initialization parameters may change according to the internal graph library that is used
-        (presently graph_tool).
+        .. warning:: DO NOT INSTANTIATE. This class must not be instantiated by users.
         """
 
         __hash__ = object.__hash__
@@ -53,10 +53,12 @@ class Graph(object):
 
         @property
         def source(self):
+            """ Returns the vertex id of source vertex of edge. """
             return int(self._edge.source())
 
         @property
         def target(self):
+            """ Returns the vertex id of source target of edge. """
             return int(self._edge.target())
 
         @property
