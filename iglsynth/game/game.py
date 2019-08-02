@@ -71,9 +71,10 @@ class Game(IGame):
         """
         Define a two-player zero-sum game with given parameters.
         The instantiation checks for the following patterns, in order:
-        #. game.define(graph=<Graph>)
-        #. game.define(model=<TSys>, acc1=<Acceptance>)
-        #. game.define(p1=<Player>, p2=<Player>, acc1=<Acceptance>)
+
+        1. ``game.define(graph=<Graph>)``
+        2. ``game.define(model=<TSys>, acc1=<Acceptance>)``
+        3. ``game.define(p1=<Player>, p2=<Player>, acc1=<Acceptance>)``
 
         :param graph: Graph object representing game.
         :type graph: :class:`Graph`
@@ -89,6 +90,9 @@ class Game(IGame):
 
         :param acc1: Winning condition of player 1.
         :type acc1: :class:`Acceptance`
+
+        .. caution:: Currently, only instantiation using ``graph`` is implemented.
+
         """
         # TODO: Add warning if unused parameters are given.
 
