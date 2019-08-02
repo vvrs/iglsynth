@@ -26,18 +26,22 @@ class IGame(abc.ABC):
     # ------------------------------------------------------------------------------------------------------------------
     @property
     def kind(self):
+        """ Returns the whether the game is turn-based or concurrent. """
         return self._kind
 
     @property
     def p1(self):
+        """ Returns the player 1 object. """
         return self._p1
 
     @property
     def p2(self):
+        """ Returns the player 1 object. """
         return self._p2
 
     @property
     def model(self):
+        """ Returns the Kripke model of the interaction. """
         return self._model
 
     @property
@@ -46,6 +50,7 @@ class IGame(abc.ABC):
 
     @property
     def graph(self):
+        """ Returns the game graph. """
         return self._graph
 
     # ------------------------------------------------------------------------------------------------------------------
