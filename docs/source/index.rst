@@ -17,4 +17,13 @@ Contents
     :maxdepth: 1
 
     install
-    getting-started
+    gettingstarted
+
+
+API Documentation
+=================
+
+.. toctree::
+    :maxdepth: 2
+
+    util
