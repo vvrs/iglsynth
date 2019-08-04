@@ -105,6 +105,10 @@ class Graph(object):
 
         else:
             raise AttributeError(f"{item} is not an attribute in class Graph.")
+        
+    def __setattr__(self, key, value):
+        print(f"I came here, key={key} (type: {type(key)}) and value={value}")
+        super(Graph, self).__setattr__(key, value)
 
     # ------------------------------------------------------------------------------------------------------------------
     # PROPERTIES
@@ -261,7 +265,7 @@ class Graph(object):
         for edge in edges:
             self.remove_edge(edge)
 
-    def add_vertex_property(self, name: str, of_type: str = "object"):
+    def add_vertex_property(self, name: str, of_type: str = "object", default=None):
         """
         Creates a new vertex property for the graph.
 
@@ -281,9 +285,12 @@ class Graph(object):
             raise TypeError(f"Given vertex property type: {of_type} is invalid. "
                             f"Types must be in {self.VALID_PROPERTY_TYPES.values()}")
 
-        self._graph.vertex_properties[name] = self._graph.new_vertex_property(value_type=of_type)
+        if default is not None:
+            self._graph.vertex_properties[name] = self._graph.new_vertex_property(value_type=of_type, val=default)
+        else:
+            self._graph.vertex_properties[name] = self._graph.new_vertex_property(value_type=of_type)
 
-    def add_edge_property(self, name: str, of_type: str = "object"):
+    def add_edge_property(self, name: str, of_type: str = "object", default=None):
         """
         Creates a new edge property for the graph.
 
@@ -303,9 +310,12 @@ class Graph(object):
             raise TypeError(f"Given edge property type: {of_type} is invalid. "
                             f"Types must be in {self.VALID_PROPERTY_TYPES.values()}")
 
-        self._graph.edge_properties[name] = self._graph.new_edge_property(value_type=of_type)
+        if default is not None:
+            self._graph.edge_properties[name] = self._graph.new_edge_property(value_type=of_type, default=None)
+        else:
+            self._graph.edge_properties[name] = self._graph.new_edge_property(value_type=of_type)
 
-    def add_graph_property(self, name: str, of_type: str = "object"):
+    def add_graph_property(self, name: str, of_type: str = "object", default=None):
         """
         Creates a new graph property for the graph.
 
@@ -325,7 +335,10 @@ class Graph(object):
             raise TypeError(f"Given graph property type: {of_type} is invalid. "
                             f"Types must be in {self.VALID_PROPERTY_TYPES.values()}")
 
-        self._graph.graph_properties[name] = self._graph.new_graph_property(value_type=of_type)
+        if default is not None:
+            self._graph.graph_properties[name] = self._graph.new_graph_property(value_type=of_type, val=default)
+        else:
+            self._graph.graph_properties[name] = self._graph.new_graph_property(value_type=of_type)
 
     def has_vertex_property(self, name: str, of_type: str = None) -> bool:
         """
@@ -517,3 +530,52 @@ class Graph(object):
 
     def out_edges(self, vid: int):
         return iter(Graph.Edge(graph=self, gt_edge=edge) for edge in self._graph.get_out_edges(vid))
+
+
+class SubGraph(Graph):
+    def __init__(self, graph: Graph, vfilt_name: str = None, efilt_name: str = None):
+        super(SubGraph, self).__init__()
+
+        # Add vertex and/or edge filter that define the sub-graph. By default, they are treated bool.
+        assert vfilt_name is not None or efilt_name is not None, "At least one of vfilt/efilt must be given."
+        self._vfilt_name = vfilt_name
+        self._efilt_name = efilt_name
+        gt_vfilt = gt_efilt = None
+
+        # Add (internalize) vertex and edge filters to graph
+
+        if vfilt_name is not None:
+            graph.add_vertex_property(name=vfilt_name, of_type="bool", default=True)
+            gt_vfilt = graph._graph.vertex_properties[vfilt_name]
+
+        if efilt_name is not None:
+            graph.add_edge_property(name=efilt_name, of_type="bool", default=True)
+            gt_efilt = graph._graph.edge_properties[efilt_name]
+
+        # Update internal graph representation
+        self._graph = gt.GraphView(g=graph._graph, vfilt=gt_vfilt, efilt=gt_efilt)
+
+
+if __name__ == '__main__':
+    # Graph
+    g = Graph()
+    g.add_vertices(num=5)
+    g.add_vertex_property("turn", of_type="int", default=10)
+    print(g.get_vertex_property("turn"))
+
+    g.turn[1] = 90
+    g.set_vertex_property("turn", 1, 90)
+    print(g.get_vertex_property("turn"))
+
+    # Sub-Graph
+    sg = SubGraph(graph=g, vfilt_name="vfilt")
+    sg.set_vertex_property("vfilt", 1, False)
+    sg.set_vertex_property("vfilt", 2, False)
+
+    print(sg.properties)
+    print(list(sg.vertices))
+    print(g.get_vertex_property("turn"))
+    print(g.get_vertex_property("vfilt"))
+
+
+
