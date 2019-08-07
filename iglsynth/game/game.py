@@ -1,26 +1,32 @@
+"""
+iglsynth: game.py
+
+License goes here...
+"""
+
 from iglsynth.util.graph import *
 from iglsynth.game.bases import *
+import warnings
 
 
 class Game(IGame):
     """
-    Represents a deterministic two-player zero-sum game.
+    Represents a deterministic two-player game. The game may be concurrent or turn-based.
 
-    .. warning:: Presently ``iglsynth`` does not support non-zero sum games.
+    :param kind: Whether the game is concurrent or turn-based.
+    :type kind: str, either :data:`CONCURRENT` or :data:`TURN_BASED`
     """
 
     def _validate_graph(self, graph: Graph) -> bool:
         """
         A deterministic two-player game graph must have an edge property: "act : <Int>", where the integer represents
-        action-id. A list of :class:`Action` objects is required to be in graph property: "act1 : <Set[Actions]>" and
-        "act2 : <Set[Actions]>" for two players. It must also have a vertex property: "is_final : <bool>". that marks
+        action-id. It must also have a vertex property: "is_final : <bool>" that marks
         whether a vertex is a final state or not.
 
         If game is turn-based, then graph must have vertex property: "turn : <Int>", where the integer
         represents the ID of player who will play at that vertex.
 
         :param graph: An :class:`Graph` object.
-        :return:
         """
 
         # Check if graph has necessary properties applicable to both turn-based and concurrent games
@@ -31,14 +37,13 @@ class Game(IGame):
         # Check if graph has necessary properties applicable to both turn-based and concurrent games
         if not (graph.has_vertex_property(name="is_final", of_type="bool") and
                 graph.has_edge_property(name="act", of_type="int")):
-
             return False
 
         # If all properties are as expected
         return True
 
     def _validate_model(self, model: Kripke) -> bool:
-        raise NotImplementedError
+        raise NotImplementedError("Feature yet to be implemented.")
 
     def _validate_player(self, p: Player) -> bool:
         raise NotImplementedError("Feature yet to be implemented.")
@@ -55,10 +60,11 @@ class Game(IGame):
 
     def _define_by_graph(self, graph: 'Graph'):
         """
-        Configures the game using a graph provided by user. It is assumed that the graph satisfies the requirements
-        of a deterministic two-player game.
+        Configures the game using a graph provided by user.
 
         :param graph: An :class:`Graph` object satisfying necessary constraints.
+
+        .. note:: The graph is assumed to satisfy the requirements of a deterministic two-player game.
         """
         self._p1 = None
         self._p2 = None
@@ -92,9 +98,7 @@ class Game(IGame):
         :type acc1: :class:`Acceptance`
 
         .. caution:: Currently, only instantiation using ``graph`` is implemented.
-
         """
-        # TODO: Add warning if unused parameters are given.
 
         # Case 1: Definition by graph
         if graph is not None:
@@ -122,8 +126,15 @@ class Game(IGame):
 
         # Case else:
         else:
-            raise AttributeError('Game cannot be defined using given parameters. See documentation.')
+            raise AttributeError('Game cannot be defined using given parameters. See docs for acceptable definitions.')
 
     def construct(self, model_product: Callable = None, game_product: Callable = None):
+        """
+        Yet to be implemented...
+
+        :param model_product:
+        :param game_product:
+        :return:
+        """
         raise NotImplementedError("Feature yet to be implemented.")
 
