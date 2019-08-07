@@ -54,5 +54,4 @@ if __name__ == '__main__':
 
     # Run the solver
     solver.solve()
-    print(solver._attr)
     print(solver.win1)
