@@ -1,0 +1,22 @@
+dist: bionic
+language: python
+python:
+  - "3.7"
+
+
+matrix:
+  include:
+  - os: linux
+    sudo: required
+    services:
+      - docker
+
+before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker pull abhibp1993/iglsynth:dev
+  - docker run -v $(pwd):/home/iglsynth/ abhibp1993/iglsynth:dev /bin/sh -c "cd /home/iglsynth/ && ls"
+  - docker ps -a
+  
+
+script:
+  - docker run -v $(pwd):/home/iglsynth/ abhibp1993/iglsynth:dev /bin/sh -c "cd /home/iglsynth/ && python3 -m pytest"
