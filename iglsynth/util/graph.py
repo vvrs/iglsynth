@@ -107,7 +107,7 @@ class Graph(object):
             raise AttributeError(f"{item} is not an attribute in class Graph.")
         
     def __setattr__(self, key, value):
-        print(f"I came here, key={key} (type: {type(key)}) and value={value}")
+        # print(f"I came here, key={key} (type: {type(key)}) and value={value}")
         super(Graph, self).__setattr__(key, value)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -531,6 +531,12 @@ class Graph(object):
     def out_edges(self, vid: int):
         return iter(Graph.Edge(graph=self, gt_edge=edge) for edge in self._graph.get_out_edges(vid))
 
+    def in_neighbors(self, vid: int):
+        return iter(int(v) for v in self._graph.get_in_neighbors(vid))
+
+    def out_neighbors(self, vid: int):
+        return iter(int(v) for v in self._graph.get_out_neighbors(vid))
+
 
 class SubGraph(Graph):
     def __init__(self, graph: Graph, vfilt_name: str = None, efilt_name: str = None):
@@ -545,7 +551,7 @@ class SubGraph(Graph):
         # Add (internalize) vertex and edge filters to graph
 
         if vfilt_name is not None:
-            graph.add_vertex_property(name=vfilt_name, of_type="bool", default=True)
+            graph.add_vertex_property(name=vfilt_name, of_type="bool", default=False)
             gt_vfilt = graph._graph.vertex_properties[vfilt_name]
 
         if efilt_name is not None:
