@@ -1,3 +1,5 @@
+.. _contents:
+
 ==================================================================
 IGLSynth: Automatic Strategy Synthesis Library
 ==================================================================
@@ -9,14 +11,16 @@ an easy interface to
 2. Assign tasks to players using formal logic.
 3. Write solvers to compute winning strategies in the game.
 
+|
 
 :mod:`iglsynth` consists of 4 modules,
 
-1. :mod:`game`: Defines classes representing deterministic/stochastic and concurrent/turn-based games as well as hypergames.
-2. :mod:`logic`: Defines classes representing formal logic such as Propositional Logic, Linear Temporal Logic etc.
-3. :mod:`solver`: Defines solvers for different games such as ZielonkaSolver etc.
-4. :mod:`util`: Defines commonly used classes such as Graph.
+1. :mod:`~iglsynth.game`: Defines classes representing deterministic/stochastic and concurrent/turn-based games as well as hypergames.
+2. :mod:`~iglsynth.logic`: Defines classes representing formal logic such as Propositional Logic, Linear Temporal Logic etc.
+3. :mod:`~iglsynth.solver`: Defines solvers for different games such as ZielonkaSolver etc.
+4. :mod:`~iglsynth.util`: Defines commonly used classes such as Graph.
 
+|
 
 ------------
 
@@ -47,7 +51,7 @@ ways of developing projects using :mod:`iglsynth`,
 2. Configure docker image as remote interpreter (`PyCharm: Configure Remote Interpreter
 <https://www.jetbrains.com/help/pycharm/using-docker-as-a-remote-interpreter.html>`_).
 
-
+|
 
 ------------
 
@@ -63,7 +67,7 @@ shown in the figure below,
     :alt: Game graph from `EPFL Slides <http://richmodels.epfl.ch/_media/w2_wed_3.pdf>`_.
 
 
-To solve this game, first create a :class:`Graph` object to represent the vertices and edges in above figure.
+To solve this game, first create a :class:`Graph <iglsynth.util.Graph>` object to represent the vertices and edges in above figure.
 
 .. code-block:: python
 
@@ -100,7 +104,7 @@ Now, mark the vertices ``3, 4`` as final vertices and add action labels to edges
          graph.set_edge_property(name="act", eid=edges[idx], value=idx)
 
 
-This defines the graph structure as required. Next, create a :class:`Game` object to define
+This defines the graph structure as required. Next, create a :class:`Game <iglsynth.game.game.Game>` object to define
 a deterministic two-player game that can be passed to a solver.
 
 .. code-block:: python
@@ -114,7 +118,8 @@ a deterministic two-player game that can be passed to a solver.
     game.define(graph=graph)
 
 
-Finally, select an appropriate solver to solve the game. We will use :class:`ZielonkaSolver` to solve
+Finally, select an appropriate solver to solve the game. We will use
+:class:`ZielonkaSolver <iglsynth.solver.ZielonkaSolver>` to solve
 the reachability game.
 
 .. code-block:: python
@@ -150,4 +155,25 @@ For defining and solving more complex games or hypergames, refer to the ``API do
 
     Home Page <self>
     Game Module <game>
+    Solver Module <solver>
     Utilities  <util>
+
+|
+
+----------------
+
+Indices and tables
+------------------
+
+Current release and documentation update date:
+
+.. only:: html
+
+    :Release: |version|
+    :Date: |today|
+
+
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

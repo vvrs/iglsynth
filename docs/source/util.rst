@@ -1,7 +1,11 @@
 Utilities
 =========
 
+.. currentmodule:: iglsynth.util
+
+
 ------------
+
 
 Graph
 -----
@@ -22,14 +26,12 @@ where
 The properties :math:`vprops`, :math:`eprops` and :math:`gprops` can be one of the following types.
 
 .. data:: VALID_PROPERTY_TYPES
-    :noindex:
     :annotation: (str) = {"bool", "int", "float", "string", "object"}
 
 
 The API for :class:`Graph` is as follows.
 
-.. autoclass:: iglsynth.util.graph.Graph
-    :noindex:
+.. autoclass:: Graph
     :members:
 
 ----------
@@ -43,9 +45,8 @@ are included in the sub-graph. Similarly, the edges :math:`e \in E` for which ``
 are included in the sub-graph.
 
 
-.. autoclass:: iglsynth.util.graph.SubGraph
-    :noindex:
+.. autoclass:: SubGraph
     :members:
 
-.. note:: :class:`Sub-Graph` is a derived class from :class:`Graph`. All member functions and properties of
+.. note:: :class:`SubGraph` is a derived class from :class:`Graph`. All member functions and properties of
     :class:`Graph` class apply to :class:`SubGraph`.

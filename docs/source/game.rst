@@ -1,7 +1,20 @@
 Game Module
 ===========
 
+.. currentmodule:: iglsynth.game.game
+
 ------------
+
+Global Variables
+----------------
+
+.. data:: CONCURRENT
+    :annotation: = "Concurrent"
+
+.. data:: TURN_BASED
+    :annotation: = "Turn-based"
+
+-----------------
 
 Deterministic Game
 ------------------
@@ -29,6 +42,5 @@ where
 
 |
 
-.. autoclass:: iglsynth.game.game.Game
-    :noindex:
+.. autoclass:: Game
     :members: define, kind, graph
