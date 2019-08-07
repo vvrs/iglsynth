@@ -1,25 +1,51 @@
 Utilities
 =========
 
-.. toctree::
-    :caption: API Documentation
-    :hidden:
+------------
 
-    Home Page <self>
+Graph
+-----
 
-Graph and Sub-graph
--------------------
+A graph is defined as
 
-.. automodule:: iglsynth.util.graph
+    :math:`G = \langle V, E, vprops, eprops, gprops \rangle`
 
+where
+
+* :math:`V` is a set of vertices.
+* :math:`E` is a set of edges.
+* :math:`vprops` are vertex properties. Each vertex property maps the set of vertices to its property value.
+* :math:`eprops` are edge properties. Each edge property maps the set of edges to its property value.
+* :math:`gprops` are graph properties. A graph property is like a global variable for entire graph.
+
+
+The properties :math:`vprops`, :math:`eprops` and :math:`gprops` can be one of the following types.
 
 .. data:: VALID_PROPERTY_TYPES
     :noindex:
-    :annotation:  = {"bool", "int", "float", "string", "object"}
+    :annotation: (str) = {"bool", "int", "float", "string", "object"}
 
+
+The API for :class:`Graph` is as follows.
 
 .. autoclass:: iglsynth.util.graph.Graph
     :noindex:
     :members:
 
+----------
 
+Sub-Graph
+----------
+
+Given a graph (or sub-graph) :math:`G`, a sub-graph is a graph defined using boolean properties
+``vfilt`` and/or ``efilt`` over :math:`G`. The vertices :math:`v \in V` for which ``vfilt[v] = True``
+are included in the sub-graph. Similarly, the edges :math:`e \in E` for which ``efilt[e] = True``
+are included in the sub-graph.
+
+
+.. autoclass:: iglsynth.util.graph.SubGraph
+    :noindex:
+    :members:
+
+.. note:: :class:`Sub-Graph` is a derived class from :class:`Graph`. All member functions and properties of
+    :class:`Graph` class apply to :class:`SubGraph`.

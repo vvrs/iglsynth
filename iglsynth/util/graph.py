@@ -1,3 +1,9 @@
+"""
+iglsynth: graph.py
+
+License goes here...
+"""
+
 import graph_tool as gt
 from typing import Iterable, Iterator, List, Tuple
 
@@ -105,10 +111,6 @@ class Graph(object):
 
         else:
             raise AttributeError(f"{item} is not an attribute in class Graph.")
-        
-    def __setattr__(self, key, value):
-        # print(f"I came here, key={key} (type: {type(key)}) and value={value}")
-        super(Graph, self).__setattr__(key, value)
 
     # ------------------------------------------------------------------------------------------------------------------
     # PROPERTIES
@@ -539,6 +541,19 @@ class Graph(object):
 
 
 class SubGraph(Graph):
+    """
+        Represents a sub-graph of :class:`Graph` defined using properties ``vfilt`` and/or ``efilt``.
+
+        :param graph: A graph object.
+        :type graph: :class:`Graph`
+
+        :param vfilt_name: Name of the boolean vertex property used to define whether a vertex is in sub-graph or not.
+        :type vfilt_name: str
+
+        :param efilt_name: Name of the boolean edge property used to define whether an edge is in sub-graph or not.
+        :type efilt_name: str
+        """
+
     def __init__(self, graph: Graph, vfilt_name: str = None, efilt_name: str = None):
         super(SubGraph, self).__init__()
 
@@ -560,28 +575,3 @@ class SubGraph(Graph):
 
         # Update internal graph representation
         self._graph = gt.GraphView(g=graph._graph, vfilt=gt_vfilt, efilt=gt_efilt)
-
-
-if __name__ == '__main__':
-    # Graph
-    g = Graph()
-    g.add_vertices(num=5)
-    g.add_vertex_property("turn", of_type="int", default=10)
-    print(g.get_vertex_property("turn"))
-
-    g.turn[1] = 90
-    g.set_vertex_property("turn", 1, 90)
-    print(g.get_vertex_property("turn"))
-
-    # Sub-Graph
-    sg = SubGraph(graph=g, vfilt_name="vfilt")
-    sg.set_vertex_property("vfilt", 1, False)
-    sg.set_vertex_property("vfilt", 2, False)
-
-    print(sg.properties)
-    print(list(sg.vertices))
-    print(g.get_vertex_property("turn"))
-    print(g.get_vertex_property("vfilt"))
-
-
-
