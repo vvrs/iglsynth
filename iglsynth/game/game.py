@@ -6,7 +6,6 @@ License goes here...
 
 from iglsynth.util.graph import *
 from iglsynth.game.bases import *
-import warnings
 
 
 class Game(IGame):
@@ -14,7 +13,8 @@ class Game(IGame):
     Represents a deterministic two-player game. The game may be concurrent or turn-based.
 
     :param kind: Whether the game is concurrent or turn-based.
-    :type kind: str, either :data:`CONCURRENT` or :data:`TURN_BASED`
+    :type kind: str, either :data:`CONCURRENT <iglsynth.game.game.CONCURRENT>` or
+        :data:`TURN_BASED <iglsynth.game.game.TURN_BASED>`
     """
 
     def _validate_graph(self, graph: Graph) -> bool:
@@ -83,7 +83,7 @@ class Game(IGame):
         3. ``game.define(p1=<Player>, p2=<Player>, acc1=<Acceptance>)``
 
         :param graph: Graph object representing game.
-        :type graph: :class:`Graph`
+        :type graph: :class:`Graph <iglsynth.util.Graph>`
 
         :param model: A Kripke structure.
         :type model: :class:`TSys`

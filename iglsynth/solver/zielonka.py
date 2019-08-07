@@ -1,12 +1,21 @@
+"""
+iglsynth: zielonka.py
+
+License goes here...
+"""
+
 from iglsynth.solver.solver import *
 from iglsynth.util.graph import *
+from iglsynth.game import Game
 
 
 class ZielonkaSolver(Solver):
     """
-    Implements Zielonka's attractor computation algorithm.
+    Implements Zielonka's attractor computation algorithm for deterministic two-player zero-sum game.
+
+    :param game: :class:`Game <iglsynth.game.game.Game>` object.
     """
-    def __init__(self, game: IGame):
+    def __init__(self, game: Game):
         super(ZielonkaSolver, self).__init__(game)
 
         # Initialize internal variables
@@ -16,7 +25,18 @@ class ZielonkaSolver(Solver):
 
     @property
     def win1(self):
-        return self._attr.get_vertex_property(name="win1")
+        """ Returns the winning region of player 1. """
+        win1 = set()
+        for v in self._attr.vertices:
+            if self._attr.get_vertex_property(name="win1", vid=v):
+                win1.add(v)
+
+        return win1
+
+    @property
+    def win2(self):
+        """ Returns the winning region of player 2. """
+        raise NotImplementedError("Feature not implemented.")
 
     def _validate_game(self, game: IGame) -> bool:
         if game.graph.has_vertex_property(name="is_final") and game.graph.has_vertex_property(name="turn"):
@@ -31,8 +51,14 @@ class ZielonkaSolver(Solver):
         :param win1: Should winning region for player 1 be computed? Default: True.
         :param win2: Should winning region for player 1 be computed? Default: True.
 
-        .. todo:: Add following params - (compute_strategy_1, compute_strategy_2, loss_strategy_1, loss_strategy_2,
-            type_strategy_1, type_strategy_2)
+        .. todo:: The following params will be added later
+
+            * compute_strategy_1: bool,
+            * compute_strategy_2: bool,
+            * loss_strategy_1: Distribution,
+            * loss_strategy_2: Distribution,
+            * type_strategy_1: Deterministic/Stochastic,
+            * type_strategy_2: Deterministic/Stochastic
         """
         self._compute_win1 = win1
         self._compute_win2 = win2
@@ -85,10 +111,10 @@ class ZielonkaSolver(Solver):
 
             win = new_win
 
-        print(win)
-
-    def solve(self):
+    def run(self):
         """
+        Runs the solver.
+
         .. note:: We are not implementing strategy computation, which requires edge filters and
             attractor graph computation.
         """

@@ -21,6 +21,6 @@ class Solver(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def solve(self):
+    def run(self):
         raise NotImplementedError
 
