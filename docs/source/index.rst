@@ -10,6 +10,13 @@ an easy interface to
 3. Write solvers to compute winning strategies in the game.
 
 
+:mod:`iglsynth` consists of 4 modules,
+
+1. :mod:`game`: Defines classes representing deterministic/stochastic and concurrent/turn-based games as well as hypergames.
+2. :mod:`logic`: Defines classes representing formal logic such as Propositional Logic, Linear Temporal Logic etc.
+3. :mod:`solver`: Defines solvers for different games such as ZielonkaSolver etc.
+4. :mod:`util`: Defines commonly used classes such as Graph.
+
 
 ------------
 
