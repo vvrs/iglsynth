@@ -15,7 +15,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-
+import iglsynth.version as iglversion
 
 # -- Project information -----------------------------------------------------
 
@@ -24,9 +24,10 @@ copyright = '2019, Abhishek N. Kulkarni'
 author = 'Abhishek N. Kulkarni'
 
 # The short X.Y version
-version = '0.1.1'
+version = iglversion.__version__
+
 # The full version, including alpha/beta/rc tags
-release = ''
+release = iglversion.__version__
 
 
 # -- General configuration ---------------------------------------------------

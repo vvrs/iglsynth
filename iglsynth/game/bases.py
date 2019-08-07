@@ -1,3 +1,9 @@
+"""
+iglsynth: bases.py
+
+License goes here...
+"""
+
 import abc
 from typing import Callable
 

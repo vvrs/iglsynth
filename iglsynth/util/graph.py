@@ -1,3 +1,9 @@
+"""
+iglsynth: graph.py
+
+License goes here...
+"""
+
 import graph_tool as gt
 from typing import Iterable, Iterator, List, Tuple
 
@@ -7,15 +13,15 @@ class Graph(object):
     Represents a discrete graph :math:`G = (V, E, vprops, eprops, gprops)`.
 
     :param vprops: An iterable of 2-tuple of (vertex-property-name, vertex-property-type). The type must be a string
-        from values of dictionary :data:`Graph.VALID_PROPERTY_TYPES`
+        from values of dictionary :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`
     :type vprops: Iterable[Tuple[str, str]]
 
     :param eprops: An iterable of 2-tuple of (vertex-property-name, vertex-property-type). The type must be a string
-        from values of dictionary :data:`Graph.VALID_PROPERTY_TYPES`
+        from values of dictionary :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`
     :type eprops: Iterable[Tuple[str, str]]
 
     :param gprops: An iterable of 2-tuple of (vertex-property-name, vertex-property-type). The type must be a string
-        from values of dictionary :data:`Graph.VALID_PROPERTY_TYPES`
+        from values of dictionary :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`
     :type gprops: Iterable[Tuple[str, str]]
     """
 
@@ -105,10 +111,6 @@ class Graph(object):
 
         else:
             raise AttributeError(f"{item} is not an attribute in class Graph.")
-        
-    def __setattr__(self, key, value):
-        # print(f"I came here, key={key} (type: {type(key)}) and value={value}")
-        super(Graph, self).__setattr__(key, value)
 
     # ------------------------------------------------------------------------------------------------------------------
     # PROPERTIES
@@ -271,7 +273,8 @@ class Graph(object):
 
         :param name: Name of the property. The given name must be unique among all vertex/edge/graph properties.
         :type name: str
-        :param of_type: One of the supported types of properties. See :data:`Graph.VALID_PROPERTY_TYPES`
+        :param of_type: One of the supported types of properties. See
+            :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`
 
         :raises NameError: If given name is already a property.
         :raises TypeError: If the given type is invalid.
@@ -296,7 +299,8 @@ class Graph(object):
 
         :param name: Name of the property. The given name must be unique among all vertex/edge/graph properties.
         :type name: str
-        :param of_type: One of the supported types of properties. See :data:`Graph.VALID_PROPERTY_TYPES`
+        :param of_type: One of the supported types of properties. See
+            :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`
 
         :raises NameError: If given name is already a property.
         :raises TypeError: If the given type is invalid.
@@ -321,7 +325,8 @@ class Graph(object):
 
         :param name: Name of the property. The given name must be unique among all vertex/edge/graph properties.
         :type name: str
-        :param of_type: One of the supported types of properties. See :data:`Graph.VALID_PROPERTY_TYPES`
+        :param of_type: One of the supported types of properties. See
+            :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`
 
         :raises NameError: If given name is already a property.
         :raises TypeError: If the given type is invalid.
@@ -349,7 +354,7 @@ class Graph(object):
         :type name: str
 
         :param of_type: Expected type of the property.
-        :type of_type: str (a value from :data:`Graph.VALID_PROPERTY_TYPES`
+        :type of_type: str (a value from :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`)
         """
         if of_type is not None:
             if name in self.vertex_properties:
@@ -368,7 +373,7 @@ class Graph(object):
         :type name: str
 
         :param of_type: Expected type of the property.
-        :type of_type: str (a value from :data:`Graph.VALID_PROPERTY_TYPES`
+        :type of_type: str (a value from :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`)
         """
         if of_type is not None:
             if name in self.edge_properties:
@@ -387,7 +392,7 @@ class Graph(object):
         :type name: str
 
         :param of_type: Expected type of the property.
-        :type of_type: str (a value from :data:`Graph.VALID_PROPERTY_TYPES`
+        :type of_type: str (a value from :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`)
         """
 
         if of_type is not None:
@@ -483,7 +488,7 @@ class Graph(object):
         :param name: Name of property.
         :type name: str
 
-        :return: Type of property from :data:`Graph.VALID_PROPERTY_TYPES`.
+        :return: Type of property from :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`.
         """
         if not self.has_vertex_property(name=name):
             raise NameError("'{0}' is not a vertex property of graph '{1}'".format(name, self))
@@ -498,7 +503,7 @@ class Graph(object):
         :param name: Name of property.
         :type name: str
 
-        :return: Type of property from :data:`Graph.VALID_PROPERTY_TYPES`.
+        :return: Type of property from :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`.
         """
         if not self.has_edge_property(name=name):
             raise NameError("'{0}' is not a edge property of graph '{1}'".format(name, self))
@@ -513,7 +518,7 @@ class Graph(object):
         :param name: Name of property.
         :type name: str
 
-        :return: Type of property from :data:`Graph.VALID_PROPERTY_TYPES`.
+        :return: Type of property from :data:`VALID_PROPERTY_TYPES <iglsynth.util.VALID_PROPERTY_TYPES>`.
         """
         if not self.has_graph_property(name=name):
             raise NameError("'{0}' is not a graph property of graph '{1}'".format(name, self))
@@ -539,6 +544,19 @@ class Graph(object):
 
 
 class SubGraph(Graph):
+    """
+        Represents a sub-graph of :class:`Graph` defined using properties ``vfilt`` and/or ``efilt``.
+
+        :param graph: A graph object.
+        :type graph: :class:`Graph`
+
+        :param vfilt_name: Name of the boolean vertex property used to define whether a vertex is in sub-graph or not.
+        :type vfilt_name: str
+
+        :param efilt_name: Name of the boolean edge property used to define whether an edge is in sub-graph or not.
+        :type efilt_name: str
+        """
+
     def __init__(self, graph: Graph, vfilt_name: str = None, efilt_name: str = None):
         super(SubGraph, self).__init__()
 
@@ -560,28 +578,3 @@ class SubGraph(Graph):
 
         # Update internal graph representation
         self._graph = gt.GraphView(g=graph._graph, vfilt=gt_vfilt, efilt=gt_efilt)
-
-
-if __name__ == '__main__':
-    # Graph
-    g = Graph()
-    g.add_vertices(num=5)
-    g.add_vertex_property("turn", of_type="int", default=10)
-    print(g.get_vertex_property("turn"))
-
-    g.turn[1] = 90
-    g.set_vertex_property("turn", 1, 90)
-    print(g.get_vertex_property("turn"))
-
-    # Sub-Graph
-    sg = SubGraph(graph=g, vfilt_name="vfilt")
-    sg.set_vertex_property("vfilt", 1, False)
-    sg.set_vertex_property("vfilt", 2, False)
-
-    print(sg.properties)
-    print(list(sg.vertices))
-    print(g.get_vertex_property("turn"))
-    print(g.get_vertex_property("vfilt"))
-
-
-

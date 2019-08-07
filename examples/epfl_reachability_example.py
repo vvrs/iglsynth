@@ -50,8 +50,8 @@ if __name__ == '__main__':
     solver = ZielonkaSolver(game=game)
 
     # Configure the solver to only compute winning regions, and not strategies
-    solver.configure()
+    solver.configure(win1=True, win2=True)
 
     # Run the solver
-    solver.solve()
+    solver.run()
     print(solver.win1)
